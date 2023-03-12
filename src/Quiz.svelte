@@ -1,10 +1,21 @@
 <script>
   import { fade, blur, fly, slide, scale } from 'svelte/transition';
+  import { onMount, beforeUpdate, afterUpdate, onDestroy } from 'svelte';
   import Question from "./Question.svelte";
 
   let activeQuestion = 0;
   let score = 0;
   let quiz = getQuiz();
+
+  onMount(() => {
+    console.log('i mounted');
+  })
+  beforeUpdate(() => {
+    console.log('before update');
+  })
+  afterUpdate(() => {
+    console.log('after update');
+  })
 
   async function getQuiz() {
     const res = await fetch('https://opentdb.com/api.php?amount=10&category=15&type=multiple');
@@ -18,12 +29,23 @@
 
   function resetQuiz() {
     score = 0;
+    activeQuestion = 0;
     quiz = getQuiz();
   }
 
   function addToScore() {
     score = score + 1;
   }
+
+  // javascript labeled statement
+  // reactive statement
+  $: if(score > 7) {
+    alert('You won!')
+    resetQuiz();
+  }
+
+  // reactive declaration
+  $: questionNumber = activeQuestion + 1
 </script>
 
 <style>
@@ -35,7 +57,7 @@
 <div>
   <button on:click={resetQuiz}>Start New Quiz</button>
   <h3>My Score: {score}</h3>
-  <h4>Question #{activeQuestion + 1}</h4>
+  <h4>Question #{questionNumber}</h4>
 
   {#await quiz}
     Loading...
