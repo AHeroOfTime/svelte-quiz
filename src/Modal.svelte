@@ -6,7 +6,7 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<style>
+<style lang="scss">
   .modal-bg {
     height: 100vh;
     position: fixed;
@@ -15,13 +15,13 @@
     bottom: o;
     left: 0;
     background: rgba(0, 0, 0, 0.8);
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+    }
   }
 
-  .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-  }
 </style>
 
 <div class="modal-bg" transition:fade bind:clientWidth={w}>
